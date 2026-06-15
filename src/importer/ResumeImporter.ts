@@ -1,41 +1,83 @@
 /**
- * Конкретна реалізація імпортера резюме
- * Наслідується від AbstractImporter і реалізує абстрактні методи
+ * Конкретна реалізація імпортера резюме.
+ * Наслідується від AbstractImporter і реалізує абстрактні методи.
  */
 
 import { AbstractImporter } from "./AbstractImporter";
 import { ResumeModel } from "../models/ResumeModel";
-import { BlockFactory } from "../blocks/BlockFactory";
+import { BlockFactory, BlockType } from "../blocks/BlockFactory";
 
 export class ResumeImporter extends AbstractImporter<ResumeModel> {
-  /**
-   * Перевіряє, чи відповідає JSON-об'єкт очікуваній структурі
-   *
-   * TODO: Реалізуйте валідацію JSON-даних резюме.
-   * Перевірте наявність необхідних полів (header, summary, experience, education, skills)
-   */
   protected validate(): void {
-    // TODO: Додайте перевірки на наявність обов'язкових полів та їх структуру. Неприпустимий формат JSON
+    if (!this.raw || typeof this.raw !== "object") {
+      throw new Error("Invalid resume data: JSON root must be an object.");
+    }
+
+    const data = this.raw as Partial<ResumeModel>;
+
+    if (
+      !data.header ||
+      !data.summary ||
+      !data.experience ||
+      !data.education ||
+      !data.skills
+    ) {
+      throw new Error(
+        "Invalid resume data: required sections are missing."
+      );
+    }
+
+    if (!data.header.fullName || !data.header.title || !data.header.contacts) {
+      throw new Error("Invalid resume data: header is incomplete.");
+    }
+
+    if (!data.summary.text) {
+      throw new Error("Invalid resume data: summary is missing.");
+    }
+
+    if (!Array.isArray(data.experience)) {
+      throw new Error("Invalid resume data: experience must be an array.");
+    }
+
+    if (!Array.isArray(data.education)) {
+      throw new Error("Invalid resume data: education must be an array.");
+    }
+
+    if (
+      !Array.isArray(data.skills.core) ||
+      !Array.isArray(data.skills.tools) ||
+      !Array.isArray(data.skills.languages)
+    ) {
+      throw new Error("Invalid resume data: skills are incomplete.");
+    }
   }
 
-  /**
-   * Перетворює JSON-дані у внутрішню модель резюме
-   *
-   */
   protected map(): ResumeModel {
     return this.raw as ResumeModel;
   }
 
-  /**
-   * Рендерить модель резюме у DOM
-   *
-   * TODO: Реалізуйте рендеринг моделі у DOM-дерево
-   */
   protected render(model: ResumeModel): void {
-    const root = document.getElementById("resume-content")!;
-    // TODO: Створіть фабрику і використайте її для створення і рендерингу блоків
+    const root = document.getElementById("resume-content");
+
+    if (!root) {
+      throw new Error('Element with id "resume-content" was not found.');
+    }
+
+    root.innerHTML = "";
+
     const factory = new BlockFactory();
 
-    // TODO: Створіть і додайте у DOM кожен блок резюме
+    const blockTypes: BlockType[] = [
+      "header",
+      "summary",
+      "experience",
+      "education",
+      "skills",
+    ];
+
+    for (const type of blockTypes) {
+      const block = factory.createBlock(type, model);
+      root.appendChild(block.render());
+    }
   }
 }

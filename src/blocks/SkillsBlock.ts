@@ -8,21 +8,31 @@ import { IBlock } from "./BlockFactory";
 export class SkillsBlock implements IBlock {
   constructor(private d: Skills) {}
 
-  /**
-   * Рендеринг блоку навичок
-   *
-   * TODO: Реалізуйте метод для відображення категорій навичок
-   * та їх списків у вигляді HTML елементів
-   */
   render(): HTMLElement {
-    // Створюємо секцію
     const sec = document.createElement("section");
     sec.className = "section skills";
     sec.innerHTML = "<h2>Skills</h2>";
 
-    // TODO: Створіть список навичок, згрупований за категоріями
-    // Використайте Object.entries(this.d) для ітерації по всіх категоріях
-    // Створіть для кожної категорії елемент списку з назвою категорії та списком навичок
+    const skillsContainer = document.createElement("ul");
+
+    Object.entries(this.d).forEach(([category, skills]) => {
+      if (skills.length === 0) {
+        return;
+      }
+
+      const categoryItem = document.createElement("li");
+
+      categoryItem.innerHTML = `
+        <p class="category-item">
+          <span class="category">${category}:</span>
+          ${skills.join(", ")}
+        </p>
+      `;
+
+      skillsContainer.appendChild(categoryItem);
+    });
+
+    sec.appendChild(skillsContainer);
 
     return sec;
   }

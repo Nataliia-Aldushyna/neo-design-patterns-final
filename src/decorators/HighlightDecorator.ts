@@ -14,17 +14,15 @@ export class HighlightDecorator implements IBlock {
   /**
    * @param block Блок, який буде декоровано
    */
+  
   constructor(block: IBlock) {
     this.wrapped = block;
   }
 
-  /**
-   * Викликає render() на обгорнутому блоці,
-   * додає клас 'highlight' до елемента і повертає його
-   */
   render(): HTMLElement {
-    // TODO: Викликати render() на обгорнутому блоці
-    // TODO: Додати клас 'highlight' до елемента
-    // TODO: Повернути модифікований елемент
+    const element = this.wrapped.render();
+    element.classList.add('highlight');
+
+    return element;
   }
 }

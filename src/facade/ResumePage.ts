@@ -5,12 +5,28 @@ import { ResumeImporter } from "../importer/ResumeImporter";
  */
 export class ResumePage {
   async init(jsonPath: string): Promise<void> {
-    // TODO: Завантажити дані через fetchData
-    // TODO: Імпортувати дані через ResumeImporter
+    try {
+      const jsonData = await this.fetchData(jsonPath);
+      const importer = new ResumeImporter(jsonData);
+
+      importer.import();
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unknown initialization error";
+
+      console.error(`Error initializing resume: ${message}`);
+    }
   }
 
   private async fetchData(path: string): Promise<unknown> {
-    // TODO: Завантажити JSON з вказаного шляху
-    return {};
+    const response = await fetch(path);
+
+    if (!response.ok) {
+      throw new Error(
+        `Error loading JSON: ${response.statusText} (${response.status})`
+      );
+    }
+
+    return response.json();
   }
 }

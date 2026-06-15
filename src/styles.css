@@ -1,37 +1,58 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 2rem auto;
-    max-width: 920px;
-    line-height: 1.5;
-    color: #222;
-    background-color: #97c9f8;
+  font-family: Arial, sans-serif;
+  margin: 2rem auto;
+  max-width: 920px;
+  line-height: 1.5;
+  color: #222;
+  background-color: #97c9f8;
+}
+
+.container {
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 h1 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 h2 {
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
 }
 
 .highlight {
-    color: #c0392b; /* червоний акцент */
+  color: #c0392b;
+  font-weight: bold;
 }
 
 .section {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .experience-item,
 .education-item,
 .project-item {
-    margin-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
-ul.skills-list {
-    list-style: square inside;
-    padding: 0;
+.projects-list {
+  padding-left: 1.25rem;
+}
+
+.position,
+.company,
+.category {
+  font-weight: bold;
+}
+
+.skills ul {
+  padding-left: 1.25rem;
+}
+
+.skills li {
+  margin-bottom: 0.4rem;
 }
