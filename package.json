@@ -1,0 +1,20 @@
+{
+  "name": "neo-design-patterns-final",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Цей шаблон демонструє застосування п'яти патернів (Facade, Template Method, Factory Method, Composite, Decorator) у мінімальному проєкті без сторонніх залежностей.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nataliia-Aldushyna/neo-design-patterns-final.git"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2",
+    "vite": "^8.0.12"
+  }
+}
